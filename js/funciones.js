@@ -1,6 +1,6 @@
-function conectarDB() {
-    let DB;
+let DB;
 
+function conectarDB() {
     const abrirConexion = window.indexedDB.open('CRM', 1);
 
     abrirConexion.onerror = function() {

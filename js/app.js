@@ -4,6 +4,7 @@ Salir De Este Archivo */
 
 (function() {
     let DB;
+    const listadoClientes = document.querySelector('#listado-clientes');
 
     document.addEventListener('DOMContentLoaded', () => {
         crearDB();
@@ -11,7 +12,40 @@ Salir De Este Archivo */
         if (window.indexedDB.open('CRM', 1)) {
             obtenerClientes();
         }
+
+        listadoClientes.addEventListener('click', eliminarRegistro);
     });
+
+    function eliminarRegistro(e) {
+        // console.log(e.target);
+        // console.log(e.target.classList);
+
+        if (e.target.classList.contains('eliminar')) {
+            // console.log('Click En El Boton De Eliminar');
+
+            /* Accedo A Los Atributos Personalizados Que Se Agregaron Desde HTML5 */
+            const idEliminar = Number(e.target.dataset.cliente);
+
+            const confirmar = confirm('Estas Seguro Que Deseas Eliminar Este Cliente');
+
+            if (confirmar) {
+                const transaction = DB.transaction(['CRM'], 'readwrite');
+
+                // Siempre Me Permite Hacer Las Transacciones
+                const objectStore = transaction.objectStore('CRM');
+                objectStore.delete(idEliminar);
+
+                transaction.oncomplete = function() {
+                    // console.log('Cliente Eliminado Correctamente', 'success');
+                    e.target.parentElement.parentElement.remove();
+                }
+
+                transaction.onerror = function() {
+                    // console.log('Cliente No Eliminando', 'error');
+                }
+            }
+        }
+    }
 
     /* Crear La Base De Datos De IndexDB */
     function crearDB() {
@@ -63,7 +97,6 @@ Salir De Este Archivo */
                     // console.log(cursor.value);
                     const { nombre, empresa, email, telefono, id } = cursor.value;
 
-                    const listadoClientes = document.querySelector('#listado-clientes');
                     listadoClientes.innerHTML += ` <tr>
                         <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                             <p class="text-sm leading-5 font-medium text-gray-700 text-lg  font-bold"> ${nombre} </p>
@@ -77,7 +110,7 @@ Salir De Este Archivo */
                         </td>
                         <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5">
                             <a href="editar-cliente.html?id=${id}" class="text-teal-600 hover:text-teal-900 mr-5">Editar</a>
-                            <a href="#" data-cliente="${id}" class="text-red-600 hover:text-red-900">Eliminar</a>
+                            <a href="#" data-cliente="${id}" class="text-red-600 hover:text-red-900 eliminar">Eliminar</a>
                         </td>
                     </tr>`;
 

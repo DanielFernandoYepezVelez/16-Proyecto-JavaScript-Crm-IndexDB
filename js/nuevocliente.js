@@ -3,7 +3,7 @@ En Este Archivo SE Queden De Forma Local, Es Decir, No Pueden
 Salir De Este Archivo */
 
 (function() {
-    let DB;
+    // let DB;
     const formulario = document.querySelector('#formulario');
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -55,7 +55,7 @@ Salir De Este Archivo */
 
             setTimeout(() => {
                 window.location.href = 'index.html';
-            }, 3000);
+            }, 1000);
         }
     }
 })();

@@ -3,7 +3,7 @@ En Este Archivo SE Queden De Forma Local, Es Decir, No Pueden
 Salir De Este Archivo */
 
 (function() {
-    let DB;
+    // let DB;
     let idCliente;
 
     const nombreInput = document.querySelector('#nombre');
@@ -32,7 +32,8 @@ Salir De Este Archivo */
         }
     });
 
-    function conectarDB() {
+    // Este Codigo Esta En Funciones.js No Vale La Pena Repetirlo
+    /* function conectarDB() {
         const abrirConexion = window.indexedDB.open('CRM', 1);
 
         abrirConexion.onerror = function() {
@@ -43,7 +44,7 @@ Salir De Este Archivo */
             DB = abrirConexion.result;
         }
     }
-
+ */
     function actualizarCliente(e) {
         e.preventDefault();
 
@@ -67,6 +68,10 @@ Salir De Este Archivo */
 
         transaction.oncomplete = function() {
             imprimirAlerta('Cliente Editado Correctamente', 'success');
+
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1000);
         }
 
         transaction.onerror = function() {
